@@ -20,7 +20,7 @@ CREATE TABLE `appointments` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `appointments` WRITE;
-/*!40000 ALTER TABLE `appointments` DISABLE KEYS */;
+
 
 INSERT INTO `appointments` (`appointmentID`, `patientID`, `doctorID`, `date`)
 VALUES
@@ -28,7 +28,7 @@ VALUES
 	(2,2,3,'2022-11-09 09:30:00'),
 	(3,3,2,'2022-11-09 09:00:00');
 
-/*!40000 ALTER TABLE `appointments` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 
@@ -49,7 +49,7 @@ CREATE TABLE `bills` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `bills` WRITE;
-/*!40000 ALTER TABLE `bills` DISABLE KEYS */;
+
 
 INSERT INTO `bills` (`bill_id`, `patientID`, `received_treatment`, `basic_amount`, `amount_assured`, `bill_status`)
 VALUES
@@ -57,7 +57,7 @@ VALUES
 	(2,1,'Still undergoing treatment ',NULL,NULL,'Pending'),
 	(3,3,'Still undergoing treatment ',NULL,NULL,'Pending');
 
-/*!40000 ALTER TABLE `bills` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 
@@ -81,7 +81,7 @@ CREATE TABLE `diagnosis` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `diagnosis` WRITE;
-/*!40000 ALTER TABLE `diagnosis` DISABLE KEYS */;
+
 
 INSERT INTO `diagnosis` (`diagnosisID`, `patientID`, `testID`, `diagnosis`, `status`, `prescriptionID`)
 VALUES
@@ -89,7 +89,7 @@ VALUES
 	(2,2,2,NULL,X'70656E64696E67',NULL),
 	(3,3,3,'Acinetobacter Infection',X'66696E616C697A6564',3);
 
-/*!40000 ALTER TABLE `diagnosis` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 
@@ -110,7 +110,7 @@ CREATE TABLE `doctor` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `doctor` WRITE;
-/*!40000 ALTER TABLE `doctor` DISABLE KEYS */;
+
 
 INSERT INTO `doctor` (`doctorID`, `name`, `subspecialty`, `password`, `age`, `gender`, `address`, `SSN`, `email`)
 VALUES
@@ -118,7 +118,7 @@ VALUES
 	(2,'Lee Ann Van Houten-Sauter','Family Doctor','34yo14910-1',34,X'46','220 Pine St Williamstown/Gloucester',847108740,NULL),
 	(3,'Glenn Howard Perelson','Cardiologist','392i-fjmjwp3',43,X'4D','740 Bay Blvd Chula Vista/San Diego',402898482,NULL);
 
-/*!40000 ALTER TABLE `doctor` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 
@@ -134,7 +134,7 @@ CREATE TABLE `medicine` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `medicine` WRITE;
-/*!40000 ALTER TABLE `medicine` DISABLE KEYS */;
+
 
 INSERT INTO `medicine` (`medicineID`, `name`, `stock`)
 VALUES
@@ -142,7 +142,7 @@ VALUES
 	(2,'Bactepan',23),
 	(3,'Lysotrope Ethozoxane',14);
 
-/*!40000 ALTER TABLE `medicine` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 
@@ -161,7 +161,7 @@ CREATE TABLE `patient` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `patient` WRITE;
-/*!40000 ALTER TABLE `patient` DISABLE KEYS */;
+
 
 INSERT INTO `patient` (`patientID`, `name`, `password`, `ssn`, `age`, `gender`, `address`)
 VALUES
@@ -169,7 +169,7 @@ VALUES
 	(2,'Nicholas Cervantes','wklemdfw',525028119,61,X'4D','8 Bridgeton Street Bradenton, FL 34203'),
 	(3,'Adelina Nairn','61771991',817719810,41,X'46','9109 Richardson Street Grand Rapids, MI 49503');
 
-/*!40000 ALTER TABLE `patient` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 
@@ -187,7 +187,7 @@ CREATE TABLE `prescription` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `prescription` WRITE;
-/*!40000 ALTER TABLE `prescription` DISABLE KEYS */;
+
 
 INSERT INTO `prescription` (`prescriptionID`, `medicineID`, `dosage`)
 VALUES
@@ -195,7 +195,7 @@ VALUES
 	(2,3,'750mg'),
 	(3,2,'250mg');
 
-/*!40000 ALTER TABLE `prescription` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 
@@ -210,7 +210,7 @@ CREATE TABLE `room` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `room` WRITE;
-/*!40000 ALTER TABLE `room` DISABLE KEYS */;
+
 
 INSERT INTO `room` (`room_number`, `purpose`, `availability`)
 VALUES
@@ -220,7 +220,7 @@ VALUES
 	(4,'Emergency Room','N'),
 	(5,'Patient Room','Y');
 
-/*!40000 ALTER TABLE `room` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 
@@ -242,14 +242,14 @@ CREATE TABLE `stay` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `stay` WRITE;
-/*!40000 ALTER TABLE `stay` DISABLE KEYS */;
+
 
 INSERT INTO `stay` (`room_number`, `patientID`, `reason`, `date_entered`, `recovery_status`, `number_of_days`)
 VALUES
 	(2,1,'High blood sugar','2022-11-09','Patient has shown improvement.',2),
 	(4,3,'Dangerous Infection','2022-11-09','Shows signs of possible expo',5);
 
-/*!40000 ALTER TABLE `stay` ENABLE KEYS */;
+
 UNLOCK TABLES;
 
 
@@ -268,7 +268,7 @@ CREATE TABLE `test` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `test` WRITE;
-/*!40000 ALTER TABLE `test` DISABLE KEYS */;
+
 
 INSERT INTO `test` (`testID`, `patientID`, `type_of_test`, `results`)
 VALUES
@@ -276,14 +276,7 @@ VALUES
 	(2,2,'Urine Test',NULL),
 	(3,3,'X-ray',NULL);
 
-/*!40000 ALTER TABLE `test` ENABLE KEYS */;
 UNLOCK TABLES;
 
 
 
-/*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
-/*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
-/*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
