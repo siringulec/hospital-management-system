@@ -3,8 +3,7 @@ SET NAMES utf8mb4;
 
 
 
-# Dump of table appointments
-# ------------------------------------------------------------
+
 
 DROP TABLE IF EXISTS `appointments`;
 
@@ -33,8 +32,7 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table bills
-# ------------------------------------------------------------
+
 
 DROP TABLE IF EXISTS `bills`;
 
@@ -63,8 +61,6 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table diagnosis
-# ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `diagnosis`;
 
@@ -97,8 +93,6 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table doctor
-# ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `doctor`;
 
@@ -128,8 +122,7 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table medicine
-# ------------------------------------------------------------
+
 
 DROP TABLE IF EXISTS `medicine`;
 
@@ -153,8 +146,6 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table patient
-# ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `patient`;
 
@@ -182,8 +173,7 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table prescription
-# ------------------------------------------------------------
+
 
 DROP TABLE IF EXISTS `prescription`;
 
@@ -209,8 +199,6 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table room
-# ------------------------------------------------------------
 
 DROP TABLE IF EXISTS `room`;
 
@@ -236,8 +224,7 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table stay
-# ------------------------------------------------------------
+
 
 DROP TABLE IF EXISTS `stay`;
 
@@ -266,8 +253,7 @@ VALUES
 UNLOCK TABLES;
 
 
-# Dump of table test
-# ------------------------------------------------------------
+
 
 DROP TABLE IF EXISTS `test`;
 
