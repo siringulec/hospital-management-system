@@ -1,9 +1,4 @@
-
 SET NAMES utf8mb4;
-
-
-
-
 
 DROP TABLE IF EXISTS `appointments`;
 
@@ -15,8 +10,8 @@ CREATE TABLE `appointments` (
   PRIMARY KEY (`appointmentID`),
   KEY `patientID` (`patientID`),
   KEY `doctorID` (`doctorID`),
-  CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`),
-  CONSTRAINT `appointments_ibfk_3` FOREIGN KEY (`doctorID`) REFERENCES `doctor` (`doctorID`)
+  CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`identification_number`),
+  CONSTRAINT `appointments_ibfk_3` FOREIGN KEY (`doctorID`) REFERENCES `doctor` (`identification_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `appointments` WRITE;
@@ -32,8 +27,6 @@ VALUES
 UNLOCK TABLES;
 
 
-
-
 DROP TABLE IF EXISTS `bills`;
 
 CREATE TABLE `bills` (
@@ -45,7 +38,7 @@ CREATE TABLE `bills` (
   `bill_status` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`bill_id`),
   KEY `patientID` (`patientID`),
-  CONSTRAINT `bills_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`)
+  CONSTRAINT `bills_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`identification_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `bills` WRITE;
@@ -67,15 +60,15 @@ DROP TABLE IF EXISTS `diagnosis`;
 CREATE TABLE `diagnosis` (
   `diagnosisID` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `patientID` int(11) unsigned NOT NULL,
-  `testID` int(11) unsigned NOT NULL,
+  `testID` int(11) unsigned DEFAULT NULL,
   `diagnosis` text DEFAULT NULL,
-  `status` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin NOT NULL,
+  `status` varchar(10) NOT NULL,
   `prescriptionID` int(10) unsigned DEFAULT NULL,
   PRIMARY KEY (`diagnosisID`),
   KEY `patientID` (`patientID`),
   KEY `testID` (`testID`),
   KEY `prescriptionID` (`prescriptionID`),
-  CONSTRAINT `diagnosis_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`),
+  CONSTRAINT `diagnosis_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`identification_number`),
   CONSTRAINT `diagnosis_ibfk_2` FOREIGN KEY (`testID`) REFERENCES `test` (`testID`),
   CONSTRAINT `diagnosis_ibfk_3` FOREIGN KEY (`prescriptionID`) REFERENCES `prescription` (`prescriptionID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
@@ -85,38 +78,36 @@ LOCK TABLES `diagnosis` WRITE;
 
 INSERT INTO `diagnosis` (`diagnosisID`, `patientID`, `testID`, `diagnosis`, `status`, `prescriptionID`)
 VALUES
-	(1,1,1,'Diabetes',X'66696E616C697A6564',1),
-	(2,2,2,NULL,X'70656E64696E67',NULL),
-	(3,3,3,'Acinetobacter Infection',X'66696E616C697A6564',3);
+	(1,1,1,'Diabetes','finalized',1),
+	(2,2,2,NULL,'pending',NULL),
+	(3,3,3,'Acinetobacter Infection','finalized',3);
 
 
 UNLOCK TABLES;
 
 
-
 DROP TABLE IF EXISTS `doctor`;
 
 CREATE TABLE `doctor` (
-  `doctorID` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `identification_number` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(100) NOT NULL,
   `subspecialty` varchar(50) DEFAULT NULL,
-  `password` varchar(12) NOT NULL,
+  `pass` varchar(12) NOT NULL,
   `age` int(3) DEFAULT NULL,
   `gender` varchar(11) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
   `address` text DEFAULT NULL,
-  `SSN` int(9) NOT NULL,
-  `email` varchar(50) DEFAULT NULL,
-  PRIMARY KEY (`doctorID`)
+  `phone` varchar(11) DEFAULT NULL,
+  PRIMARY KEY (`identification_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `doctor` WRITE;
 
 
-INSERT INTO `doctor` (`doctorID`, `name`, `subspecialty`, `password`, `age`, `gender`, `address`, `SSN`, `email`)
+INSERT INTO `doctor` (`identification_number`, `name`, `subspecialty`, `pass`, `age`, `gender`, `address`, `phone`)
 VALUES
-	(1,'Michael Joseph Giordano','Neurological Surgeon','1234567809',52,X'4D','263 Farmington Ave  Farmington/Hartford',274829705,'micheal@doctor.com'),
-	(2,'Lee Ann Van Houten-Sauter','Family Doctor','34yo14910-1',34,X'46','220 Pine St Williamstown/Gloucester',847108740,NULL),
-	(3,'Glenn Howard Perelson','Cardiologist','392i-fjmjwp3',43,X'4D','740 Bay Blvd Chula Vista/San Diego',402898482,NULL);
+	(1,'Michael Joseph Giordano','Neurological Surgeon','1',52,X'4D','263 Farmington Ave  Farmington/Hartford','1'),
+	(2,'Lee Ann Van Houten-Sauter','Family Doctor','lavhs',34,X'46','220 Pine St Williamstown/Gloucester','3'),
+	(3,'Glenn Howard Perelson','Cardiologist','ghp',43,X'4D','740 Bay Blvd Chula Vista/San Diego','4');
 
 
 UNLOCK TABLES;
@@ -147,31 +138,29 @@ UNLOCK TABLES;
 
 
 
+
 DROP TABLE IF EXISTS `patient`;
 
 CREATE TABLE `patient` (
-  `patientID` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) DEFAULT NULL,
+  `identification_number` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `name` varchar(100) NOT NULL,
   `password` varchar(12) NOT NULL,
-  `ssn` int(9) NOT NULL,
-  `age` int(3) NOT NULL,
+  `age` int(3) DEFAULT NULL,
   `gender` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_bin DEFAULT NULL,
-  `address` text DEFAULT NULL,
-  PRIMARY KEY (`patientID`)
+  `phone` varchar(11) NOT NULL,
+  PRIMARY KEY (`identification_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `patient` WRITE;
 
 
-INSERT INTO `patient` (`patientID`, `name`, `password`, `ssn`, `age`, `gender`, `address`)
+INSERT INTO `patient` (`identification_number`, `name`, `password`, `age`, `gender`, `phone`)
 VALUES
-	(1,'Mabel Mcgregor','i3ejr2ooujfo',274298402,18,X'46','9534 Fulton Street Salem, MA 01970'),
-	(2,'Nicholas Cervantes','wklemdfw',525028119,61,X'4D','8 Bridgeton Street Bradenton, FL 34203'),
-	(3,'Adelina Nairn','61771991',817719810,41,X'46','9109 Richardson Street Grand Rapids, MI 49503');
-
+	(1,'Mabel Mcgregor','i3ejr2ooujfo',18,X'46','1'),
+	(2,'Nicholas Cervantes','wklemdfw',61,X'4D','1'),
+	(3,'Adelina Nairn','61771991',41,X'46','1');
 
 UNLOCK TABLES;
-
 
 
 
@@ -225,7 +214,6 @@ UNLOCK TABLES;
 
 
 
-
 DROP TABLE IF EXISTS `stay`;
 
 CREATE TABLE `stay` (
@@ -238,7 +226,7 @@ CREATE TABLE `stay` (
   KEY `room_number` (`room_number`),
   KEY `patientID` (`patientID`),
   CONSTRAINT `stay_ibfk_1` FOREIGN KEY (`room_number`) REFERENCES `room` (`room_number`),
-  CONSTRAINT `stay_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`)
+  CONSTRAINT `stay_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`identification_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `stay` WRITE;
@@ -254,7 +242,6 @@ UNLOCK TABLES;
 
 
 
-
 DROP TABLE IF EXISTS `test`;
 
 CREATE TABLE `test` (
@@ -264,7 +251,7 @@ CREATE TABLE `test` (
   `results` text DEFAULT NULL,
   PRIMARY KEY (`testID`),
   KEY `patientID` (`patientID`),
-  CONSTRAINT `test_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`patientID`)
+  CONSTRAINT `test_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`identification_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 LOCK TABLES `test` WRITE;
@@ -276,7 +263,5 @@ VALUES
 	(2,2,'Urine Test',NULL),
 	(3,3,'X-ray',NULL);
 
+
 UNLOCK TABLES;
-
-
-
