@@ -26,7 +26,6 @@ public class RegistrationFrame extends JFrame implements ActionListener {
     private JRadioButton femaleButton = new JRadioButton("Female");
     private JRadioButton otherButton = new JRadioButton("Other");
     private ButtonGroup buttonGroup = new ButtonGroup();
-    //private JPanel registerPanel;
 
     RegistrationFrame() {
         setFrameProperties();
@@ -109,9 +108,16 @@ public class RegistrationFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        // if(e.getSource() ){
-
-        // }
+        int gender = 0;
+        if(maleButton.isSelected()){
+            gender = 1;
+        }
+        if(femaleButton.isSelected()){
+            gender = 2;
+        }
+        if(otherButton.isSelected()){
+            gender = 3;
+        }
         if (e.getSource() == cancelButton) {
             int n = JOptionPane.showConfirmDialog(RegistrationFrame.this,"Are you sure to quit?", "Quit", JOptionPane.YES_NO_OPTION);
             if (n == JOptionPane.YES_OPTION) {
@@ -120,7 +126,7 @@ public class RegistrationFrame extends JFrame implements ActionListener {
             }
         }
         if (e.getSource() == registerButton) {
-
+            registerPatient(gender);
         }
         if (e.getSource() == showPassword) {
             if (showPassword.isSelected()) {
@@ -132,105 +138,69 @@ public class RegistrationFrame extends JFrame implements ActionListener {
             }
         }// end of if show password
     }// end of actionPerformed
-}
 
-    //  public RegistrationForm(JFrame parent) {
-    //         super(parent);
-    //         setTitle("Create a new account");
-    //         setContentPane(JPanel registerPanel);
-    //         setMinimumSize(new Dimension(450, 474));
-    //         setModal(true);
-    //         setLocationRelativeTo(parent);
-    //         setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 
-    //         btnRegister.addActionListener(new ActionListener() {
-    //                 @Override
-    //                 public void actionPerformed(ActionEvent e) {
-    //                     registerUser();
-    //                 }
-    //             });
-    //         btnCancel.addActionListener(new ActionListener() {
-    //                 @Override
-    //                 public void actionPerformed(ActionEvent e) {
-    //                     dispose();
-    //                 }
-    //             });
+    private void registerPatient(int isGender){
 
-    //         setVisible(true);
-    //     }
+        String name = nameTextField.getText();
+        String id = idTextField.getText();
+        String phone = phoneTextField.getText();
+        String age = ageTextField.getText();
+        String password = String.valueOf(passwordField.getPassword());
+        String confirm = String.valueOf(confirmPasswordField.getPassword());
+        String gender = null;
 
-    //     private void registerPatient() {
-    //         String name = tfName.getText();
-    //         String phone = tfPhone.getText();
-    //         String address = tfAddress.getText();
-    //         String password = String.valueOf(pfPassword.getPassword());
-    //         String confirmPassword = String.valueOf(pfConfirmPassword.getPassword());
+        if (name.isEmpty() || id.isEmpty() || phone.isEmpty() || password.isEmpty() || confirm.isEmpty() || isGender == 0) {
+            JOptionPane.showMessageDialog(this,"Please enter all fields", "", JOptionPane.ERROR_MESSAGE);
+        }
+        if (!password.equals(confirm)) {
+            JOptionPane.showMessageDialog(this, "Confirm password does not match", "", JOptionPane.ERROR_MESSAGE);
+        }
+        if(isGender == 1){
+            gender = "Male";
+        }
+        else if (isGender == 2){
+            gender = "Female";
+        }
+        else if (isGender == 3){
+            gender = "Other";
+        }
 
-    //         if (name.isEmpty() || email.isEmpty() || phone.isEmpty() || address.isEmpty() || password.isEmpty()) {
-    //             JOptionPane.showMessageDialog(this,
-    //                                           "Please enter all fields",
-    //                                           "Try again",
-    //                                           JOptionPane.ERROR_MESSAGE);
-    //             return;
-    //         }
+        final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
+        final String USERNAME = "root";
+        final String PASSWORD = "";
 
-    //         if (!password.equals(confirmPassword)) {
-    //             JOptionPane.showMessageDialog(this,
-    //                                           "Confirm Password does not match",
-    //                                           "Try again",
-    //                                           JOptionPane.ERROR_MESSAGE);
-    //             return;
-    //         }
 
-    //         user = addUserToDatabase(name, email, phone, address, password);
-    //         if (user != null) {
-    //             dispose();
-    //         }
-    //         else {
-    //             JOptionPane.showMessageDialog(this,
-    //                                           "Failed to register new user",
-    //                                           "Try again",
-    //                                           JOptionPane.ERROR_MESSAGE);
-    //         }
-    //     }
+        try{
+            long id_number = Long.parseLong(id);
+            int age_number = Integer.parseInt(age);
+            Class.forName("com.mysql.cj.jdbc.Driver");
+            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+            // Connected to database successfully...
 
-    //     public User user;
-    //     private User addUserToDatabase(String name, String email, String phone, String address, String password) {
-    //         User user = null;
-    //         final String DB_URL = "jdbc:mysql://localhost/RegCredentials?server";
-    //         final String USERNAME = "root";
-    //         final String PASSWORD = "";
+            Statement stmt = conn.createStatement();
+            String sql = "INSERT INTO patient (name, identification_number, phone, age, pass, gender) VALUES (?, ?, ?, ?, ?, ?)";
+            PreparedStatement preparedStatement = conn.prepareStatement(sql);
+            preparedStatement.setString(1, name);
+            preparedStatement.setLong(2, id_number);
+            preparedStatement.setString(3, phone);
+            preparedStatement.setInt(4, age_number);
+            preparedStatement.setString(5, password);
+            preparedStatement.setString(6, gender);
 
-    //         try{
-    //             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-    //             // Connected to database successfully...
+            //Insert row into the table
+            int addedRows = preparedStatement.executeUpdate();
+            if (addedRows > 0) {
+                System.out.println("inserted successfully : ");
+            } else {
+                System.out.println("not work");
+            }
 
-    //             Statement stmt = conn.createStatement();
-    //             String sql = "INSERT INTO users (name, email, phone, address, password) " +
-    //                 "VALUES (?, ?, ?, ?, ?)";
-    //             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-    //             preparedStatement.setString(1, name);
-    //             preparedStatement.setString(2, email);
-    //             preparedStatement.setString(3, phone);
-    //             preparedStatement.setString(4, address);
-    //             preparedStatement.setString(5, password);
-
-    //             //Insert row into the table
-    //             int addedRows = preparedStatement.executeUpdate();
-    //             if (addedRows > 0) {
-    //                 user = new User();
-    //                 user.name = name;
-    //                 user.email = email;
-    //                 user.phone = phone;
-    //                 user.address = address;
-    //                 user.password = password;
-    //             }
-
-    //             stmt.close();
-    //             conn.close();
-    //         }catch(Exception e){
-    //             e.printStackTrace();
-    //         }
-
-    //         return user;
-    //     }
+            stmt.close();
+            conn.close();
+        }catch(Exception exception){
+            JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
+            // exception.printStackTrace();
+        }
+    }// end of register patient
+}// end of class

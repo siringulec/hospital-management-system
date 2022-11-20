@@ -62,20 +62,31 @@ public class LoginFrame extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        boolean checkUser;
+        boolean checkDoctor, checkPatient;
         if (e.getSource() == loginButton) {
             String id = userTextField.getText();
-            int id_number = Integer.parseInt(id);
             String password = String.valueOf(passwordField.getPassword());
 
-            checkUser = checkAuthentication(id_number, password);
-
-            if (checkUser) {
-                JOptionPane.showMessageDialog(LoginFrame.this, "work pls");
+            if (id.equals("admin") && password.equals("admin")){
+                DashboardFrame ad = new AdminDashboard();
                 this.dispose();
             }
             else {
-                JOptionPane.showMessageDialog(LoginFrame.this, "ID or Password Invalid", "Try again", JOptionPane.ERROR_MESSAGE);
+                long id_number = Long.parseLong(id);
+                checkDoctor = checkDoctor(id_number, password);
+                checkPatient = checkPatient(id_number, password);
+
+                if (checkPatient) {
+                    //new PatientDashboard();
+                    this.dispose();
+                }
+                else if (checkDoctor){
+                    new DoctorDashboard(id_number);
+                    this.dispose();
+                }
+                else {
+                    JOptionPane.showMessageDialog(LoginFrame.this, "ID or Password Invalid", "Try again", JOptionPane.ERROR_MESSAGE);
+                }
             }
         }
         if (e.getSource() == registerButton) {
@@ -94,8 +105,7 @@ public class LoginFrame extends JFrame implements ActionListener {
 
 
 
-
-    private boolean checkAuthentication(int id_number, String password) {
+    private boolean checkPatient(long id_number, String password) {
         final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
         final String USERNAME = "root";
         final String PASSWORD = "";
@@ -107,16 +117,16 @@ public class LoginFrame extends JFrame implements ActionListener {
             // Connected to database successfully...
 
             Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM doctor WHERE identification_number=? AND pass=?";
+            String sql = "SELECT * FROM patient WHERE identification_number=? AND pass=?";
             PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setInt(1, id_number);
+            preparedStatement.setLong(1, id_number);
             preparedStatement.setString(2, password);
 
             ResultSet resultSet = preparedStatement.executeQuery();
 
             while (resultSet.next()) {
                 checkUser = true;
-                System.out.println(resultSet.getInt(1)+"  "+resultSet.getString(2));
+                //System.out.println(resultSet.getLong(1)+"  "+resultSet.getString(2));
             }
             stmt.close();
             conn.close();
@@ -126,6 +136,40 @@ public class LoginFrame extends JFrame implements ActionListener {
         }
 
         return checkUser;
-    }// end of checkAuthentication
 
-}// end of class
+    }
+
+        private boolean checkDoctor(long id_number, String password) {
+            final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
+            final String USERNAME = "root";
+            final String PASSWORD = "";
+            boolean checkUser = false;
+
+            try{
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+                // Connected to database successfully...
+
+                Statement stmt = conn.createStatement();
+                String sql = "SELECT * FROM doctor WHERE identification_number=? AND pass=?";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setLong(1, id_number);
+                preparedStatement.setString(2, password);
+
+                ResultSet resultSet = preparedStatement.executeQuery();
+
+                while (resultSet.next()) {
+                    checkUser = true;
+                    //System.out.println(resultSet.getLong(1)+"  "+resultSet.getString(2));
+                }
+                stmt.close();
+                conn.close();
+
+            }catch(Exception e){
+                e.printStackTrace();
+            }
+
+            return checkUser;
+        }// end of checkAuthentication
+
+    }// end of class
