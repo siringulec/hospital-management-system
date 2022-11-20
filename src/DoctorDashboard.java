@@ -16,7 +16,7 @@ public class DoctorDashboard extends DashboardFrame {
         super.addComponentsToContainer();
         super.addActionEvent();
         this.id = id;
-        setEverthing();
+        setEverything();
     }
 
     public long getId() {
@@ -26,7 +26,7 @@ public class DoctorDashboard extends DashboardFrame {
     public void setId(long id) {
         this.id = id;
     }
-    public void setEverthing() {
+    public void setEverything() {
         diagnosisButton.setBounds(75, 500, 200, 30);
         container.add(diagnosisButton);
         diagnosisButton.addActionListener(this);

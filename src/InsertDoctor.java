@@ -142,9 +142,9 @@ public class InsertDoctor extends JFrame implements ActionListener {
         String password = String.valueOf(passwordField.getPassword());
         String gender = null;
 
-        // if (name.isEmpty() || id.isEmpty() || phone.isEmpty() || password.isEmpty() || .isEmpty() || isGender == 0) {
-        //     JOptionPane.showMessageDialog(this,"Please enter all fields", "", JOptionPane.ERROR_MESSAGE);
-        // }
+        if (name.isEmpty() || id.isEmpty() || phone.isEmpty() || password.isEmpty() || subspecialty.isEmpty() || isGender == 0) {
+            JOptionPane.showMessageDialog(this,"Please enter all fields", "", JOptionPane.ERROR_MESSAGE);
+        }
         if(isGender == 1){
             gender = "Male";
         }
@@ -178,9 +178,9 @@ public class InsertDoctor extends JFrame implements ActionListener {
             //Insert row into the table
             int result = preparedStatement.executeUpdate();
             if (result > 0 ){
-                System.out.println("inserted successfully : ");
+                JOptionPane.showMessageDialog(this, "Successfully added to the database.");
             } else {
-                System.out.println("does not work");
+                JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
             }
 
             stmt.close();

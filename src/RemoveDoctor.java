@@ -83,12 +83,14 @@ public class RemoveDoctor extends JFrame implements ActionListener {
 
 
     private void removeDocByName(String name){
-        long id;
         final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
         final String USERNAME = "root";
         final String PASSWORD = "";
 
         try{
+            long id = 0;
+            String id_query_s = null;
+            long id_query = 0;
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Connected to database successfully...
@@ -98,9 +100,13 @@ public class RemoveDoctor extends JFrame implements ActionListener {
             PreparedStatement preparedStatement1 = conn.prepareStatement(sql1);
             preparedStatement1.setString(1, name);
             ResultSet resultSet1 = preparedStatement1.executeQuery();
-            String id_query_s = resultSet1.getString(1);
-            long id_query = Long.parseLong(id_query_s);
-            stmt1.close();
+            if(resultSet1.next()){
+                id_query_s = resultSet1.getString(1);
+                id_query = Long.parseLong(id_query_s);
+            } else{
+                JOptionPane.showMessageDialog(this, "Error accured when getting id of doctor", "", JOptionPane.ERROR_MESSAGE);
+                this.dispose();
+            }
             // code to get dictor id using name
 
             Statement stmt2 = conn.createStatement();
@@ -120,10 +126,12 @@ public class RemoveDoctor extends JFrame implements ActionListener {
                 preparedStatement3.setString(1, name);
                 preparedStatement3.execute();
                 stmt3.close();
+                JOptionPane.showMessageDialog(this, "Successful Removal");
             }// delete if they dont have apoitmnets
             else {
                 JOptionPane.showMessageDialog(this, "This doctor has apointments.", "Try again", JOptionPane.ERROR_MESSAGE);
             }
+            stmt1.close();
             stmt2.close();
             conn.close();
         }catch(Exception exception){
@@ -162,6 +170,7 @@ public class RemoveDoctor extends JFrame implements ActionListener {
                 preparedStatement2.setLong(1, id_number);
                 preparedStatement2.execute();
                 stmt2.close();
+                JOptionPane.showMessageDialog(this, "Successful Removal");
             }// delete if they dont have apoitmnets
             else {
                 JOptionPane.showMessageDialog(this, "This doctor has apointments.", "Try again", JOptionPane.ERROR_MESSAGE);

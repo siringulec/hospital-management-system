@@ -191,16 +191,18 @@ public class RegistrationFrame extends JFrame implements ActionListener {
             //Insert row into the table
             int addedRows = preparedStatement.executeUpdate();
             if (addedRows > 0) {
-                System.out.println("inserted successfully : ");
+                JOptionPane.showMessageDialog(this, "Successfully registered.");
+                this.dispose();
+                new LoginFrame();
             } else {
-                System.out.println("not work");
+                JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
             }
 
             stmt.close();
             conn.close();
         }catch(Exception exception){
-            JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
-            // exception.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
+            exception.printStackTrace();
         }
     }// end of register patient
 }// end of class
