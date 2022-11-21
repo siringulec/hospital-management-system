@@ -16,8 +16,7 @@ public class LoginFrame extends JFrame implements ActionListener {
     private JButton registerButton = new JButton("REGISTER");
     private JCheckBox showPassword = new JCheckBox("Show Password");
     private JLabel icon = new JLabel("icon");
-    private ImageIcon image = new ImageIcon("Users/siringulec/Documents/Advanced Programming Project/hospital-management-system/icon.png");
-
+    private ImageIcon image = new ImageIcon("/Users/siringulec/Documents/Advanced Programming Project/hospital-management-system/icon.png");
 
     LoginFrame() {
         setFrameProperties();
@@ -30,7 +29,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         container.setLayout(null);
         setTitle("Login");
         setVisible(true);
-        setSize(400, 500);
+        setSize(350, 450);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -45,7 +44,7 @@ public class LoginFrame extends JFrame implements ActionListener {
         showPassword.setBounds(150, 250, 150, 30);
         loginButton.setBounds(50, 300, 100, 30);
         registerButton.setBounds(200, 300, 100, 30);
-        icon.setBounds(200, 50, WIDTH, HEIGHT);
+        icon.setBounds(135, 25, image.getIconWidth(), image.getIconHeight());
     }//positons and sizes  on the frame
 
     public void addComponentsToContainer() {

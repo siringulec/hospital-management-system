@@ -20,12 +20,14 @@ public class RegistrationFrame extends JFrame implements ActionListener {
     private JPasswordField passwordField = new JPasswordField();
     private JPasswordField confirmPasswordField = new JPasswordField();
     private JButton registerButton = new JButton("Register");
-    private JButton cancelButton = new JButton("Cancel");
+    private JButton loginButton = new JButton("Login");
     private JCheckBox showPassword = new JCheckBox("Show Password");
     private JRadioButton maleButton = new JRadioButton("Male");
     private JRadioButton femaleButton = new JRadioButton("Female");
     private JRadioButton otherButton = new JRadioButton("Other");
     private ButtonGroup buttonGroup = new ButtonGroup();
+    private JLabel icon = new JLabel();
+    private ImageIcon image = new ImageIcon("/Users/siringulec/Documents/Advanced Programming Project/hospital-management-system/icon.png");
 
     RegistrationFrame() {
         setFrameProperties();
@@ -38,10 +40,11 @@ public class RegistrationFrame extends JFrame implements ActionListener {
         container.setLayout(null);
         setTitle("Register");
         setVisible(true);
-        setSize(700, 700);
+        setSize(420, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+        icon.setIcon(image);
     }
 
     public void setLocationAndSize() {
@@ -68,8 +71,9 @@ public class RegistrationFrame extends JFrame implements ActionListener {
         confirmPasswordField.setBounds(220, 325, 150, 30);
 
         showPassword.setBounds(50, 350, 200, 30);
-        registerButton.setBounds(200, 450, 100, 30);
-        cancelButton.setBounds(50, 450, 100, 30);
+        registerButton.setBounds(200, 400, 100, 30);
+        loginButton.setBounds(50, 400, 100, 30);
+        icon.setBounds(260, 100, image.getIconWidth(), image.getIconHeight());
     }//positons and sizes  on the frame
 
     public void addComponentsToContainer() {
@@ -83,7 +87,7 @@ public class RegistrationFrame extends JFrame implements ActionListener {
         container.add(confirmPasswordField);
         container.add(showPassword);
         container.add(registerButton);
-        container.add(cancelButton);
+        container.add(loginButton);
         container.add(phoneLabel);
         container.add(ageLabel);
         container.add(genderLabel);
@@ -95,10 +99,11 @@ public class RegistrationFrame extends JFrame implements ActionListener {
         buttonGroup.add(maleButton);
         buttonGroup.add(femaleButton);
         buttonGroup.add(otherButton);
+        container.add(icon);
     }
 
     public void addActionEvent() {
-        cancelButton.addActionListener(this);
+        loginButton.addActionListener(this);
         registerButton.addActionListener(this);
         showPassword.addActionListener(this);
         maleButton.addActionListener(this);
@@ -118,8 +123,8 @@ public class RegistrationFrame extends JFrame implements ActionListener {
         if(otherButton.isSelected()){
             gender = 3;
         }
-        if (e.getSource() == cancelButton) {
-            int n = JOptionPane.showConfirmDialog(RegistrationFrame.this,"Are you sure to quit?", "Quit", JOptionPane.YES_NO_OPTION);
+        if (e.getSource() == loginButton) {
+            int n = JOptionPane.showConfirmDialog(RegistrationFrame.this,"Are you sure to go back?", null, JOptionPane.YES_NO_OPTION);
             if (n == JOptionPane.YES_OPTION) {
                 new LoginFrame();
                 this.dispose();

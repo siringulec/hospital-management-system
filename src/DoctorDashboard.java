@@ -8,8 +8,9 @@ import javax.swing.table.*;
 
 public class DoctorDashboard extends DashboardFrame {
     private long id;
-    JButton diagnosisButton = new JButton("Diagnosis");
-
+    JButton diagnosisButton = new JButton("Add patient information");
+    private JLabel icon = new JLabel("icon");
+    private ImageIcon image = new ImageIcon("/Users/siringulec/Documents/Advanced Programming Project/hospital-management-system/icon.png");
     public DoctorDashboard(long id) {
         super.setFrameProperties();
         super.setLocationAndSize();
@@ -30,6 +31,9 @@ public class DoctorDashboard extends DashboardFrame {
         diagnosisButton.setBounds(75, 500, 200, 30);
         container.add(diagnosisButton);
         diagnosisButton.addActionListener(this);
+        icon.setIcon(image);
+        icon.setBounds(125, 75, image.getIconWidth(), image.getIconHeight());
+        container.add(icon);
     }
 
 
