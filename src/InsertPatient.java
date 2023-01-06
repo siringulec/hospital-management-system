@@ -4,7 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
 
-public class RegistrationFrame extends JFrame implements ActionListener {
+public class InsertPatient extends JFrame implements ActionListener {
     private Container container = getContentPane();
     private JLabel nameLabel = new JLabel("Name");
     private JLabel idLabel = new JLabel("ID");
@@ -12,24 +12,22 @@ public class RegistrationFrame extends JFrame implements ActionListener {
     private JLabel ageLabel = new JLabel("Age");
     private JLabel genderLabel = new JLabel("Select Gender");
     private JLabel passwordLabel = new JLabel("Password");
-    private JLabel confirmLabel = new JLabel("Confirm Password");
     private JTextField nameTextField = new JTextField();
     private JTextField idTextField = new JTextField();
     private JTextField phoneTextField = new JTextField();
     private JTextField ageTextField = new JTextField();
     private JPasswordField passwordField = new JPasswordField();
-    private JPasswordField confirmPasswordField = new JPasswordField();
-    private JButton registerButton = new JButton("Register");
-    private JButton loginButton = new JButton("Login");
+    private JButton addButton = new JButton("Insert");
+    private JButton backButton = new JButton("Back");
     private JCheckBox showPassword = new JCheckBox("Show Password");
     private JRadioButton maleButton = new JRadioButton("Male");
     private JRadioButton femaleButton = new JRadioButton("Female");
     private JRadioButton otherButton = new JRadioButton("Other");
     private ButtonGroup buttonGroup = new ButtonGroup();
     private JLabel icon = new JLabel();
-    private ImageIcon image = new ImageIcon("images/icon.png");
+    private ImageIcon image = new ImageIcon("images/user.png");
 
-    RegistrationFrame() {
+    InsertPatient() {
         setFrameProperties();
         setLocationAndSize();
         addComponentsToContainer();
@@ -38,7 +36,7 @@ public class RegistrationFrame extends JFrame implements ActionListener {
 
     public void setFrameProperties() {
         container.setLayout(null);
-        setTitle("Register");
+        setTitle("Add Patient");
         setVisible(true);
         setSize(420, 500);
         setLocationRelativeTo(null);
@@ -57,7 +55,7 @@ public class RegistrationFrame extends JFrame implements ActionListener {
         phoneLabel.setBounds(50, 150, 100, 30);
         phoneTextField.setBounds(50, 175, 175, 30);
 
-        ageLabel.setBounds(50, 200, 100, 30);
+        ageLabel.setBounds(50, 200, 200, 30);
         ageTextField.setBounds(50, 225, 175, 30);
 
         genderLabel.setBounds(50, 250, 100, 30);
@@ -66,13 +64,11 @@ public class RegistrationFrame extends JFrame implements ActionListener {
         otherButton.setBounds(250, 275, 100, 30);
 
         passwordLabel.setBounds(50, 300, 100, 30);
-        confirmLabel.setBounds(220, 300, 200, 30);
         passwordField.setBounds(50, 325, 150, 30);
-        confirmPasswordField.setBounds(220, 325, 150, 30);
 
         showPassword.setBounds(50, 350, 200, 30);
-        registerButton.setBounds(200, 400, 100, 30);
-        loginButton.setBounds(50, 400, 100, 30);
+        addButton.setBounds(200, 400, 100, 30);
+        backButton.setBounds(50, 400, 100, 30);
         icon.setBounds(260, 100, image.getIconWidth(), image.getIconHeight());
     }//positons and sizes  on the frame
 
@@ -80,14 +76,12 @@ public class RegistrationFrame extends JFrame implements ActionListener {
         container.add(nameLabel);
         container.add(idLabel);
         container.add(passwordLabel);
-        container.add(confirmLabel);
         container.add(nameTextField);
         container.add(idTextField);
         container.add(passwordField);
-        container.add(confirmPasswordField);
         container.add(showPassword);
-        container.add(registerButton);
-        container.add(loginButton);
+        container.add(addButton);
+        container.add(backButton);
         container.add(phoneLabel);
         container.add(ageLabel);
         container.add(genderLabel);
@@ -103,8 +97,8 @@ public class RegistrationFrame extends JFrame implements ActionListener {
     }
 
     public void addActionEvent() {
-        loginButton.addActionListener(this);
-        registerButton.addActionListener(this);
+        backButton.addActionListener(this);
+        addButton.addActionListener(this);
         showPassword.addActionListener(this);
         maleButton.addActionListener(this);
         femaleButton.addActionListener(this);
@@ -123,43 +117,39 @@ public class RegistrationFrame extends JFrame implements ActionListener {
         if(otherButton.isSelected()){
             gender = 3;
         }
-        if (e.getSource() == loginButton) {
-            int n = JOptionPane.showConfirmDialog(RegistrationFrame.this,"Are you sure to go back?", null, JOptionPane.YES_NO_OPTION);
+        if (e.getSource() == backButton) {
+            int n = JOptionPane.showConfirmDialog(InsertPatient.this,"Are you sure go back?", "Back", JOptionPane.YES_NO_OPTION);
             if (n == JOptionPane.YES_OPTION) {
-                new LoginFrame();
+                new Patient();
                 this.dispose();
             }
         }
-        if (e.getSource() == registerButton) {
-            registerPatient(gender);
+        if (e.getSource() == addButton) {
+            insertPatient(gender);
         }
         if (e.getSource() == showPassword) {
             if (showPassword.isSelected()) {
                 passwordField.setEchoChar((char) 0);
-                confirmPasswordField.setEchoChar((char) 0);
             } else {
                 passwordField.setEchoChar('*');
-                confirmPasswordField.setEchoChar('*');
             }
         }// end of if show password
     }// end of actionPerformed
 
 
-    private void registerPatient(int isGender){
+    private void insertPatient(int isGender){
 
         String name = nameTextField.getText();
-        String id = idTextField.getText();
-        String phone = phoneTextField.getText();
         String age = ageTextField.getText();
+        int age_num = Integer.parseInt(age);
+        String id = idTextField.getText();
+        long id_number = Long.parseLong(id);
+        String phone = phoneTextField.getText();
         String password = String.valueOf(passwordField.getPassword());
-        String confirm = String.valueOf(confirmPasswordField.getPassword());
         String gender = null;
 
-        if (name.isEmpty() || id.isEmpty() || phone.isEmpty() || password.isEmpty() || confirm.isEmpty() || isGender == 0) {
+        if (name.isEmpty() || id.isEmpty() || phone.isEmpty() || password.isEmpty() || age.isEmpty() || isGender == 0) {
             JOptionPane.showMessageDialog(this,"Please enter all fields", "", JOptionPane.ERROR_MESSAGE);
-        }
-        if (!password.equals(confirm)) {
-            JOptionPane.showMessageDialog(this, "Confirm password does not match", "", JOptionPane.ERROR_MESSAGE);
         }
         if(isGender == 1){
             gender = "Male";
@@ -177,8 +167,6 @@ public class RegistrationFrame extends JFrame implements ActionListener {
 
 
         try{
-            long id_number = Long.parseLong(id);
-            int age_number = Integer.parseInt(age);
             Class.forName("com.mysql.cj.jdbc.Driver");
             Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
             // Connected to database successfully...
@@ -189,16 +177,14 @@ public class RegistrationFrame extends JFrame implements ActionListener {
             preparedStatement.setString(1, name);
             preparedStatement.setLong(2, id_number);
             preparedStatement.setString(3, phone);
-            preparedStatement.setInt(4, age_number);
+            preparedStatement.setInt(4, age_num);
             preparedStatement.setString(5, password);
             preparedStatement.setString(6, gender);
 
             //Insert row into the table
-            int addedRows = preparedStatement.executeUpdate();
-            if (addedRows > 0) {
-                JOptionPane.showMessageDialog(this, "Successfully registered.");
-                this.dispose();
-                new LoginFrame();
+            int result = preparedStatement.executeUpdate();
+            if (result > 0 ){
+                JOptionPane.showMessageDialog(this, "Successfully added to the database.");
             } else {
                 JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
             }
@@ -206,8 +192,7 @@ public class RegistrationFrame extends JFrame implements ActionListener {
             stmt.close();
             conn.close();
         }catch(Exception exception){
-            JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
-            //exception.printStackTrace();
+            JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
         }
-    }// end of register patient
+    }// end of insert doc
 }// end of class

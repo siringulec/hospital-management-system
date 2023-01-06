@@ -3,16 +3,21 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.sql.*;
-import java.util.Vector;
-import javax.swing.table.*;
 
 public class Doctor extends JFrame implements ActionListener {
-    Container container = getContentPane();
-    JButton addButton = new JButton("ADD DOCTOR");
-    JButton removeButton = new JButton("REMOVE DOCTOR ");
-    JButton listButton = new JButton("LIST DOCTORS");
-    JButton searchButton = new JButton("SEARCH IN DOCTORS");
+    private Container container = getContentPane();
+    private JButton addButton = new JButton("ADD DOCTOR");
+    private JButton removeButton = new JButton("REMOVE DOCTOR ");
+    private JButton listButton = new JButton("LIST DOCTORS");
+    private JButton searchButton = new JButton("SEARCH IN DOCTORS");
     private JButton backButton = new JButton("BACK");
+    public String sql =  "DELETE FROM doctor WHERE identification_number=?";
+    public String sql1 = "SELECT identification_number FROM doctor WHERE name=?";
+    private String sql_name = "FROM doctor WHERE name=?";
+    private String sql_phone = "FROM doctor WHERE phone=?";
+    private String sql_id = "SELECT * FROM doctor WHERE identification_number=?";
+    private JLabel icon = new JLabel();
+    private ImageIcon image = new ImageIcon("images/user.png");
 
     Doctor() {
         setFrameProperties();
@@ -25,17 +30,19 @@ public class Doctor extends JFrame implements ActionListener {
         container.setLayout(null);
         setTitle("DOCTOR");
         setVisible(true);
-        setSize(400, 600);
+        setSize(400, 505);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+        icon.setIcon(image);
     }
     public void setLocationAndSize() {
-        addButton.setBounds(50, 50, 300, 30);
-        removeButton.setBounds(50, 150, 300, 30);
-        listButton.setBounds(50, 250 , 300 , 30);
-        searchButton.setBounds(50, 350 , 300 , 30);
-        backButton.setBounds(50, 450, 100, 30);
+        addButton.setBounds(50, 225, 300, 30);
+        removeButton.setBounds(50, 275, 300, 30);
+        listButton.setBounds(50, 325 , 300 , 30);
+        searchButton.setBounds(50, 375 , 300 , 30);
+        backButton.setBounds(50, 425, 300, 30);
+        icon.setBounds(136, 50, image.getIconWidth(), image.getIconHeight());
     }
 
     public void addComponentsToContainer() {
@@ -44,6 +51,7 @@ public class Doctor extends JFrame implements ActionListener {
         container.add(listButton);
         container.add(searchButton);
         container.add(backButton);
+        container.add(icon);
     }
 
     public void addActionEvent() {
@@ -61,64 +69,20 @@ public class Doctor extends JFrame implements ActionListener {
             this.dispose();
         }
         if (e.getSource() == removeButton ) {
-            new RemoveDoctor();
+            new RemoveDoctorPatient(sql1, sql, false);
             this.dispose();
         }
         if (e.getSource() == listButton ) {
-            listDoctors();
-        
+            String sql2 = "SELECT * FROM doctor";
+            new List().list(sql2);
         }
         if (e.getSource() == searchButton ) {
-            new SearchDoctor();
+            new SearchDoctorPatient(sql_name, sql_id, sql_phone);
             this.dispose();
         }
         if (e.getSource() == backButton) {
             new AdminDashboard();
             this.dispose();
         }
-    }
-
-    public void listDoctors(){
-        final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
-        final String USERNAME = "root";
-        final String PASSWORD = "";
-
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            // Connected to database successfully...
-
-            Statement stmt = conn.createStatement();
-            String sql = "SELECT * FROM doctor";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            JTable table = new JTable(buildTableModel(resultSet));
-            JOptionPane.showMessageDialog(null, new JScrollPane(table));
-            stmt.close();
-            conn.close();
-
-        }catch(Exception e){
-            e.printStackTrace();
-        }
-    }
-    public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {
-        ResultSetMetaData metaData = rs.getMetaData();
-        // names of columns
-        Vector<String> columnNames = new Vector<String>();
-        int columnCount = metaData.getColumnCount();
-        for (int column = 1; column <= columnCount; column++) {
-            columnNames.add(metaData.getColumnName(column));
-        }
-        // data of the table
-        Vector<Vector<Object>> data = new Vector<Vector<Object>>();
-        while (rs.next()) {
-            Vector<Object> vector = new Vector<Object>();
-            for (int columnIndex = 1; columnIndex <= columnCount; columnIndex++) {
-                vector.add(rs.getObject(columnIndex));
-            }
-            data.add(vector);
-        }
-        return new DefaultTableModel(data, columnNames);
-    }// end of buildTableModel
-}
+    }// end of actionperformed
+}// end of class

@@ -24,6 +24,8 @@ public class InsertDoctor extends JFrame implements ActionListener {
     private JRadioButton femaleButton = new JRadioButton("Female");
     private JRadioButton otherButton = new JRadioButton("Other");
     private ButtonGroup buttonGroup = new ButtonGroup();
+    private JLabel icon = new JLabel();
+    private ImageIcon image = new ImageIcon("images/user.png");
 
     InsertDoctor() {
         setFrameProperties();
@@ -36,10 +38,11 @@ public class InsertDoctor extends JFrame implements ActionListener {
         container.setLayout(null);
         setTitle("Add Doctor");
         setVisible(true);
-        setSize(700, 700);
+        setSize(420, 500);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
+        icon.setIcon(image);
     }
 
     public void setLocationAndSize() {
@@ -64,8 +67,9 @@ public class InsertDoctor extends JFrame implements ActionListener {
         passwordField.setBounds(50, 325, 150, 30);
 
         showPassword.setBounds(50, 350, 200, 30);
-        addButton.setBounds(200, 450, 100, 30);
-        backButton.setBounds(50, 450, 100, 30);
+        addButton.setBounds(200, 400, 100, 30);
+        backButton.setBounds(50, 400, 100, 30);
+        icon.setBounds(260, 100, image.getIconWidth(), image.getIconHeight());
     }//positons and sizes  on the frame
 
     public void addComponentsToContainer() {
@@ -89,6 +93,7 @@ public class InsertDoctor extends JFrame implements ActionListener {
         buttonGroup.add(maleButton);
         buttonGroup.add(femaleButton);
         buttonGroup.add(otherButton);
+        container.add(icon);
     }
 
     public void addActionEvent() {

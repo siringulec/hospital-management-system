@@ -16,7 +16,7 @@ public class LoginFrame extends JFrame implements ActionListener {
     private JButton registerButton = new JButton("REGISTER");
     private JCheckBox showPassword = new JCheckBox("Show Password");
     private JLabel icon = new JLabel("icon");
-    private ImageIcon image = new ImageIcon("/Users/siringulec/Documents/Advanced Programming Project/hospital-management-system/icon.png");
+    private ImageIcon image = new ImageIcon("images/icon.png");
 
     LoginFrame() {
         setFrameProperties();
@@ -72,7 +72,7 @@ public class LoginFrame extends JFrame implements ActionListener {
             String password = String.valueOf(passwordField.getPassword());
             try {
                 if (id.equals("admin") && password.equals("admin")){
-                    DashboardFrame ad = new AdminDashboard();
+                     new AdminDashboard();
                     this.dispose();
                 }
                 else {
@@ -81,7 +81,7 @@ public class LoginFrame extends JFrame implements ActionListener {
                     checkPatient = checkPatient(id_number, password);
 
                     if (checkPatient) {
-                        //new PatientDashboard();
+                        new PatientDashboard(id_number);
                         this.dispose();
                     }
                     else if (checkDoctor){
@@ -93,8 +93,8 @@ public class LoginFrame extends JFrame implements ActionListener {
                     }
                 }// end of else not admin
             } catch (NumberFormatException ex) {
-                JOptionPane.showMessageDialog(this, "Please fill all fields.", "Try again", JOptionPane.ERROR_MESSAGE);
-                ex.printStackTrace();
+                JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "Try again", JOptionPane.ERROR_MESSAGE);
+                //ex.printStackTrace();
             }
 
         }// end of login button
@@ -143,7 +143,7 @@ public class LoginFrame extends JFrame implements ActionListener {
             conn.close();
 
         }catch(Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return checkUser;
@@ -177,7 +177,7 @@ public class LoginFrame extends JFrame implements ActionListener {
             conn.close();
 
         }catch(Exception e){
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         return checkUser;
