@@ -107,37 +107,38 @@ public class InsertTest extends JFrame implements ActionListener {
 
         if (id.isEmpty() || type.isEmpty()) {
             JOptionPane.showMessageDialog(this,"Please enter all fields", "", JOptionPane.ERROR_MESSAGE);
-        }
+        } else {
 
-        final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
-        final String USERNAME = "root";
-        final String PASSWORD = "";
+            final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
+            final String USERNAME = "root";
+            final String PASSWORD = "";
 
-        try{
-            Long typeID = Long.parseLong(type);
-            Long patientID = Long.parseLong(id);
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            // Connected to database successfully...
+            try{
+                Long typeID = Long.parseLong(type);
+                Long patientID = Long.parseLong(id);
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+                // Connected to database successfully...
 
-            Statement stmt = conn.createStatement();
-            String sql = "INSERT INTO test (patientID, type_of_test, date) VALUES (?, ?, ?)";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setLong(1, patientID);
-            preparedStatement.setLong(2, typeID);
-            preparedStatement.setString(3, date);
-            //Insert row into the table
-            int result = preparedStatement.executeUpdate();
-            if (result > 0 ){
-                JOptionPane.showMessageDialog(this, "Successfully added to the database.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
+                Statement stmt = conn.createStatement();
+                String sql = "INSERT INTO test (patientID, type_of_test, date) VALUES (?, ?, ?)";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setLong(1, patientID);
+                preparedStatement.setLong(2, typeID);
+                preparedStatement.setString(3, date);
+                //Insert row into the table
+                int result = preparedStatement.executeUpdate();
+                if (result > 0 ){
+                    JOptionPane.showMessageDialog(this, "Successfully added to the database.");
+                } else {
+                    JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
+                }
+                stmt.close();
+                conn.close();
+            }catch(Exception exception){
+                JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
+                exception.printStackTrace();
             }
-            stmt.close();
-            conn.close();
-        }catch(Exception exception){
-            JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
-            exception.printStackTrace();
         }
     }// end of insert
 }// end of class

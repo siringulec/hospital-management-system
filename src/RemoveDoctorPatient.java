@@ -92,7 +92,8 @@ public class RemoveDoctorPatient extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Successful Removal");
                 else
                     JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
-            }
+            } else
+                JOptionPane.showMessageDialog(this, "Please fill all fields.", null, JOptionPane.ERROR_MESSAGE);
         }
         if (e.getSource() == idButton) {
             if(!id.isEmpty()){
@@ -101,7 +102,8 @@ public class RemoveDoctorPatient extends JFrame implements ActionListener {
                     JOptionPane.showMessageDialog(this, "Successful Removal");
                 else
                     JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
-            }
+            } else
+                JOptionPane.showMessageDialog(this, "Please fill all fields.", null, JOptionPane.ERROR_MESSAGE);
         }
     }// end of actionPerformed
 
@@ -111,10 +113,6 @@ public class RemoveDoctorPatient extends JFrame implements ActionListener {
         final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
         final String USERNAME = "root";
         final String PASSWORD = "";
-
-        System.out.println(sql);
-        System.out.println(sql1);
-
         try{
             long id = 0;
             String id_query_s = null;

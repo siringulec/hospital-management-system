@@ -92,14 +92,23 @@ public class SearchDoctorPatient extends JFrame implements ActionListener {
             this.dispose();
         }
         if (e.getSource() == nameButton) {
-            new List().list(name, sql_name);
+            if (!name.isEmpty())
+                new List().list(name, sql_name);
+            else
+                JOptionPane.showMessageDialog(this, "Please enter a name.", null, JOptionPane.ERROR_MESSAGE);
         }
         if (e.getSource() == idButton) {
-            long id_number = Long.parseLong(id);
-            new List().list(id_number, sql_id);
+            if (!id.isEmpty()){
+                long id_number = Long.parseLong(id);
+                new List().list(id_number, sql_id);
+            } else
+                JOptionPane.showMessageDialog(this, "Please enter a id.", null, JOptionPane.ERROR_MESSAGE);
         }
         if (e.getSource() == phoneButton) {
-            new List().list(phone, sql_phone);
+            if (!phone.isEmpty())
+                new List().list(phone, sql_phone);
+            else
+                JOptionPane.showMessageDialog(this, "Please enter a phone number.", null, JOptionPane.ERROR_MESSAGE);
         }// end
     }// end of actionPerformed
 }// end of class

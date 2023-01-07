@@ -113,57 +113,55 @@ public class InsertAppointment extends JFrame implements ActionListener {
             if (day > 28)
                 JOptionPane.showMessageDialog(this,"Please enter a valid day.", "", JOptionPane.ERROR_MESSAGE);
         }
-        String date = "2023-"+months[month]+"-"+days[day];
-        String time_selected = time[time_of_appoitment]+":00";
-
-        if (patient.isEmpty() || doctor.isEmpty()) {
+        else if (patient.isEmpty() || doctor.isEmpty()) {
             JOptionPane.showMessageDialog(this,"Please enter all fields", "", JOptionPane.ERROR_MESSAGE);
-        }
-        final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
-        final String USERNAME = "root";
-        final String PASSWORD = "";
-        try{
-            long patientID = Long.parseLong(patient);
-            long doctorID = Long.parseLong(doctor);
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            // Connected to database
-            String sql1 = "SELECT * FROM appointments WHERE doctorID=? AND date=? AND time=?";
-            PreparedStatement preparedStatement1 = conn.prepareStatement(sql1);
-            preparedStatement1.setLong(1, doctorID);
-            preparedStatement1.setString(2, date);
-            preparedStatement1.setString(3, time_selected);
-            ResultSet resultSet1 = preparedStatement1.executeQuery();
+        } else {
+            String date = "2023-"+months[month]+"-"+days[day];
+            String time_selected = time[time_of_appoitment]+":00";
+            final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
+            final String USERNAME = "root";
+            final String PASSWORD = "";
+            try{
+                long patientID = Long.parseLong(patient);
+                long doctorID = Long.parseLong(doctor);
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+                // Connected to database
+                String sql1 = "SELECT * FROM appointments WHERE doctorID=? AND date=? AND time=?";
+                PreparedStatement preparedStatement1 = conn.prepareStatement(sql1);
+                preparedStatement1.setLong(1, doctorID);
+                preparedStatement1.setString(2, date);
+                preparedStatement1.setString(3, time_selected);
+                ResultSet resultSet1 = preparedStatement1.executeQuery();
 
-            String sql2 = "SELECT * FROM appointments WHERE patientID=? AND date=? AND time=?";
-            PreparedStatement preparedStatement2 = conn.prepareStatement(sql2);
-            preparedStatement2.setLong(1, patientID);
-            preparedStatement2.setString(2, date);
-            preparedStatement2.setString(3, time_selected);
-            ResultSet resultSet2 = preparedStatement2.executeQuery();
+                String sql2 = "SELECT * FROM appointments WHERE patientID=? AND date=? AND time=?";
+                PreparedStatement preparedStatement2 = conn.prepareStatement(sql2);
+                preparedStatement2.setLong(1, patientID);
+                preparedStatement2.setString(2, date);
+                preparedStatement2.setString(3, time_selected);
+                ResultSet resultSet2 = preparedStatement2.executeQuery();
 
-            if (!resultSet1.next() || !resultSet2.next()){
-                String sql = "INSERT INTO appointments (patientID, doctorID, date, time) VALUES (?, ?, ?, ?)";
-                PreparedStatement preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setLong(1, patientID);
-                preparedStatement.setLong(2, doctorID);
-                preparedStatement.setString(3, date);
-                preparedStatement.setString(4, time_selected);
-                //Insert row into the table
-                int result = preparedStatement.executeUpdate();
-                if (result > 0 )
-                    JOptionPane.showMessageDialog(this, "Successfully added to the database.");
-                else
-                    JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Patient or Doctor already have appointment  at the time entered.", null, JOptionPane.ERROR_MESSAGE);
-                new Appointment();
-            }
-            conn.close();
-        }catch(Exception exception){
-            JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
-            //exception.printStackTrace();
-        }
+                if (!resultSet1.next() || !resultSet2.next()){
+                    String sql = "INSERT INTO appointments (patientID, doctorID, date, time) VALUES (?, ?, ?, ?)";
+                    PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                    preparedStatement.setLong(1, patientID);
+                    preparedStatement.setLong(2, doctorID);
+                    preparedStatement.setString(3, date);
+                    preparedStatement.setString(4, time_selected);
+                    //Insert row into the table
+                    int result = preparedStatement.executeUpdate();
+                    if (result > 0 )
+                        JOptionPane.showMessageDialog(this, "Successfully added to the database.");
+                    else
+                        JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
+                } else
+                    JOptionPane.showMessageDialog(this, "Patient or Doctor already have appointment at the time entered.", null, JOptionPane.ERROR_MESSAGE);
+                conn.close();
+            }catch(Exception exception){
+                JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
+                //exception.printStackTrace();
+            }// end of catch
+        } // end of else
     }// end of insert
 
 

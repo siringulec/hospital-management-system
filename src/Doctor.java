@@ -13,8 +13,8 @@ public class Doctor extends JFrame implements ActionListener {
     private JButton backButton = new JButton("BACK");
     public String sql =  "DELETE FROM doctor WHERE identification_number=?";
     public String sql1 = "SELECT identification_number FROM doctor WHERE name=?";
-    private String sql_name = "FROM doctor WHERE name=?";
-    private String sql_phone = "FROM doctor WHERE phone=?";
+    private String sql_name = "SELECT * FROM doctor WHERE name=?";
+    private String sql_phone = "SELECT * FROM doctor WHERE phone=?";
     private String sql_id = "SELECT * FROM doctor WHERE identification_number=?";
     private JLabel icon = new JLabel();
     private ImageIcon image = new ImageIcon("images/user.png");
@@ -73,8 +73,8 @@ public class Doctor extends JFrame implements ActionListener {
             this.dispose();
         }
         if (e.getSource() == listButton ) {
-            String sql2 = "SELECT * FROM doctor";
-            new List().list(sql2);
+            String sql1 = "SELECT * FROM doctor";
+            new List().list(sql1);
         }
         if (e.getSource() == searchButton ) {
             new SearchDoctorPatient(sql_name, sql_id, sql_phone);

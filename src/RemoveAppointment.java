@@ -10,7 +10,7 @@ public class RemoveAppointment extends JFrame implements ActionListener {
     private Container container = getContentPane();
     private JButton removeButton = new JButton("Remove");
     private JButton backButton = new JButton("Back");
-    private JLabel idLabel = new JLabel("ID");
+    private JLabel idLabel = new JLabel("Appointment ID");
     private JTextField idTextField = new JTextField();
     private JLabel icon = new JLabel();
     private ImageIcon image = new ImageIcon("images/user-small.png");
@@ -57,6 +57,7 @@ public class RemoveAppointment extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        boolean res = false;
         String id = idTextField.getText();
         if (e.getSource() == backButton) {
             new Appointment();
@@ -64,13 +65,14 @@ public class RemoveAppointment extends JFrame implements ActionListener {
         }
         if(e.getSource() == removeButton){
             if(!id.isEmpty()){
-                boolean res = removeAppointment(id);
+                res = removeAppointment(id);
                 if (res){
                     JOptionPane.showMessageDialog(this, "Successful Removal");
                 }
                 else
                     JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
-            }
+            } else
+                JOptionPane.showMessageDialog(this, "Please fill all fields.", null, JOptionPane.ERROR_MESSAGE);
         }
     }// end of actionPerformed
 

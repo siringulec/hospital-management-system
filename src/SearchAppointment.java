@@ -8,7 +8,7 @@ import javax.swing.table.*;
 
 public class SearchAppointment extends JFrame implements ActionListener {
     private Container container = getContentPane();
-    private JLabel dateLabel = new JLabel("Date");
+    private JLabel dateLabel = new JLabel("Date (yyyy-mm-dd)");
     private JLabel doctorLabel = new JLabel("Doctor ID");
     private JLabel patientLabel = new JLabel("Patient ID");
     private JTextField dateTextField = new JTextField();
@@ -43,7 +43,7 @@ public class SearchAppointment extends JFrame implements ActionListener {
     }
 
     public void setLocationAndSize() {
-        dateLabel.setBounds(50, 25, 100, 30);
+        dateLabel.setBounds(50, 25, 200, 30);
         dateTextField.setBounds(50, 50, 205, 30);
         dateButton.setBounds(50, 75, 200, 30);
         doctorLabel.setBounds(50, 100, 100, 30);
@@ -89,15 +89,24 @@ public class SearchAppointment extends JFrame implements ActionListener {
             this.dispose();
         }
         if (e.getSource() == dateButton) {
-            new List().list(date, sql_date);
+            if (!date.isEmpty())
+                new List().list(date, sql_date);
+            else
+                JOptionPane.showMessageDialog(this, "Please enter a date.", null, JOptionPane.ERROR_MESSAGE);
         }
         if (e.getSource() == doctorButton) {
-            long doctor_number = Long.parseLong(doctor);
-            new List().list(doctor_number, sql_doctor);
+            if (!doctor.isEmpty()){
+                long doctor_number = Long.parseLong(doctor);
+                new List().list(doctor_number, sql_doctor);
+            } else
+                JOptionPane.showMessageDialog(this, "Please enter an id.", null, JOptionPane.ERROR_MESSAGE);
         }
         if (e.getSource() == patientButton) {
-            long patient_number = Long.parseLong(patient);
-            new List().list(patient_number, sql_patient);
-        }// end
+            if (!patient.isEmpty()){
+                long patient_number = Long.parseLong(patient);
+                new List().list(patient_number, sql_patient);
+            } else
+                JOptionPane.showMessageDialog(this, "Please enter an id.", null, JOptionPane.ERROR_MESSAGE);
+        }
     }// end of actionPerformed
 }// end of class

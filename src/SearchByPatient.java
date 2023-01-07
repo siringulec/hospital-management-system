@@ -65,20 +65,19 @@ public class SearchByPatient extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        String date = dateTextField.getText();
+        String id = idTextField.getText();
+        long id_number = 0L;
         if (e.getSource() == backButton) {
             new AdminDashboard();
             this.dispose();
         }
         if (e.getSource() == searchButton) {
-            try{
-                String date = dateTextField.getText();
-                String id = idTextField.getText();
-                Long id_number = Long.parseLong(id);
+            if (!id.isEmpty() || !date.isEmpty()){
+                id_number = Long.parseLong(id);
                 new List().list(id_number, sql, date);
-            }
-            catch(Exception ex){
-                JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
-            }
-        }// end
+            }else
+                JOptionPane.showMessageDialog(this, "Please fill all fields.", "", JOptionPane.ERROR_MESSAGE);
+        }
     }// end of actionPerformed
 }// end of class

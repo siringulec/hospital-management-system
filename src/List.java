@@ -86,7 +86,6 @@ public class List{
             JOptionPane.showMessageDialog(new JFrame(), "Error", null, JOptionPane.ERROR_MESSAGE);
             //e.printStackTrace();
         }
-
     }// end of list
 
     public static DefaultTableModel buildTableModel(ResultSet rs) throws SQLException {

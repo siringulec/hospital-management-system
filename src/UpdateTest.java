@@ -8,20 +8,20 @@ import java.sql.*;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
-public class InsertBill extends JFrame implements ActionListener {
+public class UpdateTest extends JFrame implements ActionListener {
     private Container container = getContentPane();
     private JLabel idLabel = new JLabel("Patient ID");
-    private JLabel insuranceLabel = new JLabel("Insured Amount");
-    private JLabel moneyLabel = new JLabel("Normal Amount");
+    private JLabel dateLabel = new JLabel("Date (yyyy-mm-dd)");
+    private JLabel resultsLabel = new JLabel("Results");
     private JTextField idTextField = new JTextField();
-    private JTextField insuranceTextField = new JTextField();
-    private JTextField moneyTextField = new JTextField();
+    private JTextField dateTextField = new JTextField();
+    private JTextArea resultsTextField = new JTextArea();
     private JButton addButton = new JButton("Insert");
     private JButton backButton = new JButton("Back");
     private JLabel icon = new JLabel();
     private ImageIcon image = new ImageIcon("images/user.png");
 
-    InsertBill() {
+    UpdateTest() {
         setFrameProperties();
         setLocationAndSize();
         addComponentsToContainer();
@@ -30,9 +30,9 @@ public class InsertBill extends JFrame implements ActionListener {
 
     public void setFrameProperties() {
         container.setLayout(null);
-        setTitle("Add Bill");
+        setTitle("Add Diagnosis");
         setVisible(true);
-        setSize(420, 350);
+        setSize(420, 530);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setResizable(false);
@@ -43,24 +43,24 @@ public class InsertBill extends JFrame implements ActionListener {
         idLabel.setBounds(50, 50, 100, 30);
         idTextField.setBounds(50, 75, 175, 30);
 
-        insuranceLabel.setBounds(50, 100, 200, 30);
-        insuranceTextField.setBounds(50, 125, 175, 30);
+        dateLabel.setBounds(50, 100, 200, 30);
+        dateTextField.setBounds(50, 125, 175, 30);
 
-        moneyLabel.setBounds(50, 150, 100, 30);
-        moneyTextField.setBounds(50, 175, 175, 30);
+        resultsLabel.setBounds(50, 150, 100, 30);
+        resultsTextField.setBounds(50, 175, 175, 250);
 
-        addButton.setBounds(200, 250, 100, 30);
-        backButton.setBounds(50, 250, 100, 30);
+        addButton.setBounds(200, 450, 100, 30);
+        backButton.setBounds(50, 450, 100, 30);
         icon.setBounds(260, 50, image.getIconWidth(), image.getIconHeight());
     }//positons and sizes  on the frame
 
     public void addComponentsToContainer() {
         container.add(idLabel);
-        container.add(moneyLabel);
-        container.add(insuranceLabel);
-        container.add(insuranceTextField);
+        container.add(dateLabel);
+        container.add(resultsLabel);
+        container.add(resultsTextField);
         container.add(idTextField);
-        container.add(moneyTextField);
+        container.add(dateTextField);
         container.add(addButton);
         container.add(backButton);
         container.add(icon);
@@ -74,25 +74,22 @@ public class InsertBill extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == backButton) {
-            new Bill();
+            new Test();
             this.dispose();
         }
         if (e.getSource() == addButton) {
-            insertBill();
+            insertDiagnosis();
         }
     }// end of actionPerformed
 
 
-    private void insertBill(){
+    private void insertDiagnosis(){
 
         String id = idTextField.getText();
-        String insurance = insuranceTextField.getText();
-        String money = moneyTextField.getText();
-        LocalDate dateObj = LocalDate.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        String date = dateObj.format(formatter);
+        String date = dateTextField.getText();
+        String results = resultsTextField.getText();
 
-        if (id.isEmpty() || insurance.isEmpty() || money.isEmpty()) {
+        if (id.isEmpty() || date.isEmpty() || results.isEmpty()) {
             JOptionPane.showMessageDialog(this,"Please enter all fields", "", JOptionPane.ERROR_MESSAGE);
         } else {
 
@@ -102,19 +99,17 @@ public class InsertBill extends JFrame implements ActionListener {
 
             try{
                 Long patientID = Long.parseLong(id);
-                double money_n = Double.parseDouble(money);
-                double insurance_n = Double.parseDouble(insurance);
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
                 // Connected to database successfully...
 
                 Statement stmt = conn.createStatement();
-                String sql = "INSERT INTO bills (patientID, basic_amount, date, amount_assured) VALUES (?, ?, ?, ?)";
+                String sql = "UPDATE test SET results=? WHERE patientID=? AND date=?";
                 PreparedStatement preparedStatement = conn.prepareStatement(sql);
-                preparedStatement.setLong(1, patientID);
-                preparedStatement.setDouble(2, money_n);
+                preparedStatement.setString(1, results);
+                preparedStatement.setLong(2, patientID);
                 preparedStatement.setString(3, date);
-                preparedStatement.setDouble(4, insurance_n);
+
                 //Insert row into the table
                 int result = preparedStatement.executeUpdate();
                 if (result > 0 ){

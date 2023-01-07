@@ -141,7 +141,6 @@ public class InsertDoctor extends JFrame implements ActionListener {
 
         String name = nameTextField.getText();
         String id = idTextField.getText();
-        long id_number = Long.parseLong(id);
         String phone = phoneTextField.getText();
         String subspecialty = subspecialtyTextField.getText();
         String password = String.valueOf(passwordField.getPassword());
@@ -149,49 +148,46 @@ public class InsertDoctor extends JFrame implements ActionListener {
 
         if (name.isEmpty() || id.isEmpty() || phone.isEmpty() || password.isEmpty() || subspecialty.isEmpty() || isGender == 0) {
             JOptionPane.showMessageDialog(this,"Please enter all fields", "", JOptionPane.ERROR_MESSAGE);
-        }
-        if(isGender == 1){
-            gender = "Male";
-        }
-        else if (isGender == 2){
-            gender = "Female";
-        }
-        else if (isGender == 3){
-            gender = "Other";
-        }
-
-        final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
-        final String USERNAME = "root";
-        final String PASSWORD = "";
-
-
-        try{
-            Class.forName("com.mysql.cj.jdbc.Driver");
-            Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
-            // Connected to database successfully...
-
-            Statement stmt = conn.createStatement();
-            String sql = "INSERT INTO doctor (name, identification_number, phone, subspecialty, pass, gender) VALUES (?, ?, ?, ?, ?, ?)";
-            PreparedStatement preparedStatement = conn.prepareStatement(sql);
-            preparedStatement.setString(1, name);
-            preparedStatement.setLong(2, id_number);
-            preparedStatement.setString(3, phone);
-            preparedStatement.setString(4, subspecialty);
-            preparedStatement.setString(5, password);
-            preparedStatement.setString(6, gender);
-
-            //Insert row into the table
-            int result = preparedStatement.executeUpdate();
-            if (result > 0 ){
-                JOptionPane.showMessageDialog(this, "Successfully added to the database.");
-            } else {
-                JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
+        } else {
+            if(isGender == 1){
+                gender = "Male";
+            }
+            else if (isGender == 2){
+                gender = "Female";
+            }
+            else if (isGender == 3){
+                gender = "Other";
             }
 
-            stmt.close();
-            conn.close();
-        }catch(Exception exception){
-            JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
+            final String DB_URL = "jdbc:mysql://localhost:3306/hospital";
+            final String USERNAME = "root";
+            final String PASSWORD = "";
+
+
+            try{
+                long id_number = Long.parseLong(id);
+                Class.forName("com.mysql.cj.jdbc.Driver");
+                Connection conn = DriverManager.getConnection(DB_URL, USERNAME, PASSWORD);
+                // Connected to database successfully...
+                String sql = "INSERT INTO doctor (name, identification_number, phone, subspecialty, pass, gender) VALUES (?, ?, ?, ?, ?, ?)";
+                PreparedStatement preparedStatement = conn.prepareStatement(sql);
+                preparedStatement.setString(1, name);
+                preparedStatement.setLong(2, id_number);
+                preparedStatement.setString(3, phone);
+                preparedStatement.setString(4, subspecialty);
+                preparedStatement.setString(5, password);
+                preparedStatement.setString(6, gender);
+
+                //Insert row into the table
+                int result = preparedStatement.executeUpdate();
+                if (result > 0 ){
+                    JOptionPane.showMessageDialog(this, "Successfully added to the database.");
+                } else
+                    JOptionPane.showMessageDialog(this, "Error", null, JOptionPane.ERROR_MESSAGE);
+                conn.close();
+            }catch(Exception exception){
+                JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
+            }
         }
     }// end of insert doc
 }// end of class

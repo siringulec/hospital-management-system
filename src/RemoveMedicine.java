@@ -57,6 +57,7 @@ public class RemoveMedicine extends JFrame implements ActionListener {
 
     @Override
     public void actionPerformed(ActionEvent e) {
+        boolean res = false;
         String id = idTextField.getText();
         if (e.getSource() == backButton) {
             new Medicine();
@@ -64,13 +65,14 @@ public class RemoveMedicine extends JFrame implements ActionListener {
         }
         if(e.getSource() == removeButton){
             if(!id.isEmpty()){
-                boolean res = removeMed(id);
+                res = removeMed(id);
                 if (res){
                     JOptionPane.showMessageDialog(this, "Successful Removal");
                 }
                 else
                     JOptionPane.showMessageDialog(this, "Please make sure to enter everything correctly.", "", JOptionPane.ERROR_MESSAGE);
-            }
+            }else
+                JOptionPane.showMessageDialog(this, "Please fill id field.", null, JOptionPane.ERROR_MESSAGE);
         }
     }// end of actionPerformed
 

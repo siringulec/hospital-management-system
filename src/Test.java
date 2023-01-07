@@ -86,7 +86,7 @@ public class Test extends JFrame implements ActionListener {
             this.dispose();
         }
         if (e.getSource() == updateButton ) {
-            //new UpdateTest();
+            new UpdateTest();
             this.dispose();
         }
     }// end of actionperformed
