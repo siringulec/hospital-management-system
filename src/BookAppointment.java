@@ -97,8 +97,9 @@ public class BookAppointment extends JFrame implements ActionListener {
                 this.dispose();
             }
         }
-        if (e.getSource() == addButton)
+        if (e.getSource() == addButton){
             bookAppoitment();
+        }
     }// end of actionPerformed
 
 
@@ -117,9 +118,8 @@ public class BookAppointment extends JFrame implements ActionListener {
         if (month == 3 || month == 5 || month == 8 || month == 10) {
             if (day == 30)
                 JOptionPane.showMessageDialog(this,"Please enter a valid day.", "", JOptionPane.ERROR_MESSAGE);
-        } else if (month == 1){
-            if (day > 28)
-                JOptionPane.showMessageDialog(this,"Please enter a valid day.", "", JOptionPane.ERROR_MESSAGE);
+        }if (month == 1 && day > 28){
+            JOptionPane.showMessageDialog(this,"Please enter a valid day.", "", JOptionPane.ERROR_MESSAGE);
         } else if (month < currMonth){
                 JOptionPane.showMessageDialog(this,"You cannot book appointments that are at a earlier date.", "", JOptionPane.ERROR_MESSAGE);
         } else if (month == currMonth && currentDay > day+1){
