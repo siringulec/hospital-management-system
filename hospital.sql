@@ -1,33 +1,9 @@
--- phpMyAdmin SQL Dump
--- version 5.2.0
--- https://www.phpmyadmin.net/
---
--- Host: localhost
--- Generation Time: Jan 08, 2023 at 02:14 PM
--- Server version: 10.4.27-MariaDB
--- PHP Version: 8.1.12
-
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
---
--- Database: `hospital`
---
-CREATE DATABASE IF NOT EXISTS `hospital` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+CREATE DATABASE IF NOT EXISTS `hospital`
 USE `hospital`;
-
--- --------------------------------------------------------
-
---
--- Table structure for table `appointments`
---
 
 DROP TABLE IF EXISTS `appointments`;
 CREATE TABLE IF NOT EXISTS `appointments` (
@@ -41,10 +17,6 @@ CREATE TABLE IF NOT EXISTS `appointments` (
   KEY `doctorID` (`doctorID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=25 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `appointments`
---
-
 INSERT INTO `appointments` (`appointmentID`, `patientID`, `doctorID`, `date`, `time`) VALUES
 (1, 1, 1, '2023-01-02', '14:45:00'),
 (3, 3, 2, '2022-11-09', '09:00:00'),
@@ -54,11 +26,6 @@ INSERT INTO `appointments` (`appointmentID`, `patientID`, `doctorID`, `date`, `t
 (23, 22222222222, 79038763357, '2023-05-27', '16:45:00'),
 (24, 2, 3, '2023-04-23', '13:15:00');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `bills`
---
 
 DROP TABLE IF EXISTS `bills`;
 CREATE TABLE IF NOT EXISTS `bills` (
@@ -69,9 +36,6 @@ CREATE TABLE IF NOT EXISTS `bills` (
   KEY `patientID` (`patientID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `bills`
---
 
 INSERT INTO `bills` (`patientID`, `basic_amount`, `amount_assured`, `date`) VALUES
 (3, 100, 10, '2023-01-02'),
@@ -85,12 +49,6 @@ INSERT INTO `bills` (`patientID`, `basic_amount`, `amount_assured`, `date`) VALU
 (98147918741, 250, 150, '2023-01-08'),
 (22222222222, 250, 100, '2023-01-08');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `diagnosis`
---
-
 DROP TABLE IF EXISTS `diagnosis`;
 CREATE TABLE IF NOT EXISTS `diagnosis` (
   `patientID` bigint(11) UNSIGNED NOT NULL,
@@ -99,10 +57,6 @@ CREATE TABLE IF NOT EXISTS `diagnosis` (
   `date` date NOT NULL,
   KEY `patientID` (`patientID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `diagnosis`
---
 
 INSERT INTO `diagnosis` (`patientID`, `symptoms`, `diagnosis`, `date`) VALUES
 (12475408654, 'pain\nswelling\ntenderness\ndeformity', 'Nondisplaced fracture of neck of other metacarpal bone', '2023-01-08'),
@@ -114,12 +68,6 @@ INSERT INTO `diagnosis` (`patientID`, `symptoms`, `diagnosis`, `date`) VALUES
 (1, '- bad breath\n- eye twitching\n- memory loss\n- drooling \n- headache ', 'Vein Head', '2023-01-08'),
 (2, '- a fever\n- a rash\n- mouth sores\n- temporary blindness \n- leg pain', 'Hell Cramps', '2023-01-08'),
 (3, '- cloudy urine\n- inattention\n- confusion\n- ankle pain \n- vomiting', 'Terrifying Heart', '2023-01-08');
-
--- --------------------------------------------------------
-
---
--- Table structure for table `doctor`
---
 
 DROP TABLE IF EXISTS `doctor`;
 CREATE TABLE IF NOT EXISTS `doctor` (
@@ -133,10 +81,6 @@ CREATE TABLE IF NOT EXISTS `doctor` (
   UNIQUE KEY `phone` (`phone`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `doctor`
---
-
 INSERT INTO `doctor` (`identification_number`, `name`, `pass`, `subspecialty`, `gender`, `phone`) VALUES
 (1, 'Michael Joseph Giordano', '1', 'Neurological Surgeon', 'Male', '1'),
 (2, 'Lee Ann Van Houten-Sauter', 'lavhs', 'Family Doctor', 'Female', '3'),
@@ -149,11 +93,6 @@ INSERT INTO `doctor` (`identification_number`, `name`, `pass`, `subspecialty`, `
 (79038763357, 'Idris Cabrera', 'idris', 'pediatric anesthesiology', 'Male', '+90 561 612 72 18'),
 (80482780129, 'Edward Wiley', 'edward', 'Immunopathology', 'Male', '+90 561 619 15 19');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `medicine`
---
 
 DROP TABLE IF EXISTS `medicine`;
 CREATE TABLE IF NOT EXISTS `medicine` (
@@ -163,9 +102,6 @@ CREATE TABLE IF NOT EXISTS `medicine` (
   PRIMARY KEY (`medicineID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=20 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `medicine`
---
 
 INSERT INTO `medicine` (`medicineID`, `name`, `stock`) VALUES
 (1, 'Metformin', 65),
@@ -183,12 +119,6 @@ INSERT INTO `medicine` (`medicineID`, `name`, `stock`) VALUES
 (18, 'Atracupenem Olazoxane', 74),
 (19, 'Tetrasomax Baratensin', 87);
 
--- --------------------------------------------------------
-
---
--- Table structure for table `patient`
---
-
 DROP TABLE IF EXISTS `patient`;
 CREATE TABLE IF NOT EXISTS `patient` (
   `identification_number` bigint(11) UNSIGNED NOT NULL,
@@ -199,10 +129,6 @@ CREATE TABLE IF NOT EXISTS `patient` (
   `phone` varchar(25) NOT NULL,
   PRIMARY KEY (`identification_number`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Dumping data for table `patient`
---
 
 INSERT INTO `patient` (`identification_number`, `name`, `pass`, `age`, `gender`, `phone`) VALUES
 (1, 'test', 'test', 40, 'Male', '+904325009020'),
@@ -216,12 +142,6 @@ INSERT INTO `patient` (`identification_number`, `name`, `pass`, `age`, `gender`,
 (63870583195, 'sarah dienta', 'dinadina', 12, 'Female', '+63870583195'),
 (98147918741, 'Kelsey Candy', 'nice', 24, 'Female', '+905237652343');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `prescription`
---
-
 DROP TABLE IF EXISTS `prescription`;
 CREATE TABLE IF NOT EXISTS `prescription` (
   `patientID` bigint(11) UNSIGNED NOT NULL,
@@ -232,9 +152,6 @@ CREATE TABLE IF NOT EXISTS `prescription` (
   KEY `patientID` (`patientID`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `prescription`
---
 
 INSERT INTO `prescription` (`patientID`, `medicineID`, `dosage`, `date`) VALUES
 (3, 3, '750mg', '2022-11-14'),
@@ -249,11 +166,6 @@ INSERT INTO `prescription` (`patientID`, `medicineID`, `dosage`, `date`) VALUES
 (63870583195, 17, '100mg', '2023-01-08'),
 (63870583195, 18, '1000mg', '2023-01-08');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `test`
---
 
 DROP TABLE IF EXISTS `test`;
 CREATE TABLE IF NOT EXISTS `test` (
@@ -265,10 +177,6 @@ CREATE TABLE IF NOT EXISTS `test` (
   KEY `type_of_test` (`type_of_test`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `test`
---
-
 INSERT INTO `test` (`patientID`, `type_of_test`, `results`, `date`) VALUES
 (1, 1, '101,01', '2023-01-02'),
 (2, 5, '5,5', '2023-01-02'),
@@ -279,12 +187,6 @@ INSERT INTO `test` (`patientID`, `type_of_test`, `results`, `date`) VALUES
 (3, 1, '20,9', '2023-01-07'),
 (1, 3, '103,3', '2023-01-07');
 
--- --------------------------------------------------------
-
---
--- Table structure for table `type_of_test`
---
-
 DROP TABLE IF EXISTS `type_of_test`;
 CREATE TABLE IF NOT EXISTS `type_of_test` (
   `typeID` bigint(11) UNSIGNED NOT NULL AUTO_INCREMENT,
@@ -292,9 +194,6 @@ CREATE TABLE IF NOT EXISTS `type_of_test` (
   PRIMARY KEY (`typeID`)
 ) ENGINE=InnoDB AUTO_INCREMENT=17 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `type_of_test`
---
 
 INSERT INTO `type_of_test` (`typeID`, `type_of_test`) VALUES
 (1, 'X-ray'),
@@ -314,44 +213,22 @@ INSERT INTO `type_of_test` (`typeID`, `type_of_test`) VALUES
 (15, 'Sleep Study'),
 (16, 'TSH ');
 
---
--- Constraints for dumped tables
---
-
---
--- Constraints for table `appointments`
---
 ALTER TABLE `appointments`
   ADD CONSTRAINT `appointments_ibfk_1` FOREIGN KEY (`doctorID`) REFERENCES `doctor` (`identification_number`) ON DELETE CASCADE,
   ADD CONSTRAINT `appointments_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`identification_number`) ON DELETE CASCADE;
 
---
--- Constraints for table `bills`
---
 ALTER TABLE `bills`
   ADD CONSTRAINT `bills_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`identification_number`) ON DELETE CASCADE;
 
---
--- Constraints for table `diagnosis`
---
 ALTER TABLE `diagnosis`
   ADD CONSTRAINT `diagnosis_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`identification_number`) ON DELETE CASCADE;
 
---
--- Constraints for table `prescription`
---
 ALTER TABLE `prescription`
   ADD CONSTRAINT `prescription_ibfk_1` FOREIGN KEY (`medicineID`) REFERENCES `medicine` (`medicineID`),
   ADD CONSTRAINT `prescription_ibfk_2` FOREIGN KEY (`patientID`) REFERENCES `patient` (`identification_number`) ON DELETE CASCADE;
 
---
--- Constraints for table `test`
---
 ALTER TABLE `test`
   ADD CONSTRAINT `test_ibfk_1` FOREIGN KEY (`patientID`) REFERENCES `patient` (`identification_number`) ON DELETE CASCADE ON UPDATE NO ACTION,
   ADD CONSTRAINT `test_ibfk_2` FOREIGN KEY (`type_of_test`) REFERENCES `type_of_test` (`typeID`) ON DELETE CASCADE ON UPDATE NO ACTION;
 COMMIT;
 
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
