@@ -1,4 +1,17 @@
-# hospital-management-system
+# Hospital Management System
 
-A hospital management system allows a hospital to manage its staff, employees, rooms, etc. with ease. In general, a hospital management system has an admin portal that can add or remove users who can access the system. Also, the users can access the system using a username and password. The three types of users – admin, doctor, and patient – will have individual dashboards from where they can do things that they are permitted to as well as change their settings. While the doctor portal allows doctors to log in to their accounts to see their appointments, the customer portal enables patients to view their diagnosis reports, prescribed medications, and more. Admin portal will allow admins to manage both doctors and patients. Further, you need to store all the data about doctors, patients, and their interactions. Therefore, you need to connect to some database for the same. Some of the key features of a hospital management system are as follows:
-,Doctor and patient records, Prescription management, Rooms management.Appointments management, Billing details, Patient History.
+A hospital management system is an essential tool for managing the various functions of a hospital, such as managing staff, employees, rooms, and patients. This system typically includes an admin portal that allows authorized users to add or remove users who can access the system, while users can log in using their unique username and password. The system is designed to provide different dashboards for the three types of users - admin, doctor, and patient - to access the features that they are permitted to, and manage their settings.
+
+## Features
+
+Some of the key features of a hospital management system are:
+
+- **Doctor and Patient Records:** This feature allows you to store and manage records of doctors and patients. It includes details such as personal information, medical history, and contact information.
+
+- **Prescription Management:** The prescription management feature allows doctors to generate and manage prescriptions for their patients. This feature also allows patients to view their prescriptions online.
+
+- **Appointments Management:** This feature allows doctors to manage their appointments with patients. Patients can view their appointment schedules online and can book, reschedule or cancel appointments as needed.
+
+- **Billing Details:** The billing details feature enables you to manage the billing and invoicing for the hospital's services, including insurance claims.
+
+- **Patient History:** This feature enables doctors to access the complete medical history of a patient, including past diagnoses, treatments, and medications.
